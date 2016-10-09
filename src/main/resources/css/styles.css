@@ -1,0 +1,51 @@
+.root {
+    -swatch-yellow: #FFD862;
+    -swatch-orange: #FFB662;
+    -swatch-green: #5FCBA0;
+    -swatch-blue: #569DF3;
+    -swatch-purple: #7066F1;
+    -swatch-pink: #FF779D;
+    -swatch-red: #FF5B5B;
+    
+    -swatch-10: #FFFFFF;
+    -swatch-20: #F2F2F2;
+    -swatch-30: #E5E5E5;
+    -swatch-40: #D8D8D8;
+    -swatch-50: #9DAEC7;
+    -swatch-60: #748195;
+    -swatch-70: #495261;
+    -swatch-80: #2B3039;
+    -swatch-90: #000000;
+    
+    -fx-background-color: -swatch-20;
+}
+
+.button {
+    -fx-background-color: -swatch-10;
+    -fx-cursor: hand;
+}
+
+.header {
+    -fx-background-color: -swatch-30;
+}
+
+.cue {
+    -fx-background-color: -swatch-30;
+    -fx-cursor: hand;
+}
+
+.cue:hover {
+    -fx-background-color: -swatch-40;
+}
+
+.cue.loaded {
+    -fx-background-color: -swatch-green;
+}
+
+.cue.loaded:hover {
+    -fx-background-color: derive(-swatch-green, 30%);
+}
+
+.cue .label {
+    -fx-text-fill: -swatch-10;
+}
