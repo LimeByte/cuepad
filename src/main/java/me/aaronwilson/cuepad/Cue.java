@@ -65,7 +65,13 @@ public class Cue extends BorderPane {
      * Registers the appropriate events for handling clicking on a cue.
      */
     private void handleClickEvents() {
-        setOnMouseClicked((event) -> {
+        setOnMousePressed((event) -> {
+            if (!event.isSynthesized() && sound != null) {
+                sound.play();
+            }
+        });
+
+        setOnTouchPressed((event) -> {
             if (sound != null) {
                 sound.play();
             }

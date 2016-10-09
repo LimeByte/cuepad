@@ -18,9 +18,11 @@
             </HBox>
          </left>
          <right>
-            <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button disable="true" mnemonicParsing="false" text="Stop" />
+                  <Button disable="true" mnemonicParsing="false" text="&lt;" />
+                  <Label alignment="CENTER" maxWidth="100.0" minWidth="100.0" text="Scene 1" textAlignment="CENTER" />
+                  <Button disable="true" mnemonicParsing="false" text="&gt;" />
                </children>
             </HBox>
          </right>
