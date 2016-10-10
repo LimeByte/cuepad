@@ -9,7 +9,9 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import me.aaronwilson.cuepad.element.Cue;
 import me.aaronwilson.cuepad.element.CueScene;
 
@@ -17,6 +19,9 @@ public class GridController implements Initializable {
 
     public static final int ROWS = 5;
     public static final int COLUMNS = 6;
+
+    private static final double ROW_WIDTH = 100.0 / ROWS;
+    private static final double COLUMN_WIDTH = 100.0 / COLUMNS;
 
     private List<CueScene> scenes = new ArrayList<>();
     private int scene;
@@ -27,8 +32,25 @@ public class GridController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        setupGrid();
+
         createScene();
         loadScene(0);
+    }
+
+
+    private void setupGrid() {
+        for (int i = 0; i < COLUMNS; i++) {
+            ColumnConstraints column = new ColumnConstraints();
+            column.setPercentWidth(COLUMN_WIDTH);
+            grid.getColumnConstraints().add(column);
+        }
+
+        for (int i = 0; i < ROWS; i++) {
+            RowConstraints row = new RowConstraints();
+            row.setPercentHeight(ROW_WIDTH);
+            grid.getRowConstraints().add(row);
+        }
     }
 
 
