@@ -11,8 +11,8 @@
          <left>
             <HBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button disable="true" mnemonicParsing="false" text="Load" />
-                  <Button disable="true" mnemonicParsing="false" text="Save" />
+                  <Button fx:id="load" mnemonicParsing="false" text="Load" />
+                  <Button fx:id="save" mnemonicParsing="false" text="Save" />
                   <Region />
                   <Button fx:id="newScene" mnemonicParsing="false" text="New Scene" />
                   <Button mnemonicParsing="false" onAction="#clearGrid" text="Clear Scene" />

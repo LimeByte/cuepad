@@ -31,7 +31,6 @@
 
 .cue {
     -fx-background-color: -swatch-30;
-    -fx-cursor: hand;
 }
 
 .cue:hover {
@@ -40,6 +39,7 @@
 
 .cue.loaded {
     -fx-background-color: -swatch-green;
+    -fx-cursor: hand;
 }
 
 .cue.loaded:hover {

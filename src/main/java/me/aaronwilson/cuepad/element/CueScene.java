@@ -1,8 +1,10 @@
-package me.aaronwilson.cuepad;
+package me.aaronwilson.cuepad.element;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import me.aaronwilson.cuepad.controller.GridController;
 
 public class CueScene {
 
@@ -10,21 +12,25 @@ public class CueScene {
     private List<Cue> cues;
 
 
-    public CueScene(String name, int size) {
+    @SuppressWarnings("unused")
+    private CueScene() {
+        // For GSON
+    }
+
+
+    public CueScene(String name) {
         this.name = name;
-        initialiseScene(size);
+        initialiseScene();
     }
 
 
     /**
      * Fills the list with empty cues.
-     * 
-     * @param size the required size of the list
      */
-    private void initialiseScene(int size) {
+    private void initialiseScene() {
         cues = new ArrayList<>();
 
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < GridController.ROWS * GridController.COLUMNS; i++) {
             cues.add(new Cue());
         }
     }

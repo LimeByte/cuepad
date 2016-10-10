@@ -1,4 +1,4 @@
-package me.aaronwilson.cuepad;
+package me.aaronwilson.cuepad.element;
 
 import java.io.File;
 
@@ -29,6 +29,14 @@ public class Cue extends BorderPane {
 
         handleDragEvents();
         handleClickEvents();
+    }
+
+
+    public Cue(String name, String filePath) {
+        this();
+        if (!filePath.isEmpty()) {
+            loadFile(name, filePath);
+        }
     }
 
 
@@ -96,25 +104,38 @@ public class Cue extends BorderPane {
 
 
     private void loadFile(File file) {
+        String text = file.getName();
+        int pos = text.lastIndexOf(".");
+        loadFile(pos > 0 ? text.substring(0, pos) : text, file.toURI().toString());
+    }
+
+
+    private void loadFile(String name, String filePath) {
         try {
-            sound = new AudioClip(file.toURI().toString());
+            sound = new AudioClip(filePath);
 
             getStyleClass().add("loaded");
-
-            String text = file.getName();
-            int pos = text.lastIndexOf(".");
-            label.setText(pos > 0 ? text.substring(0, pos) : text);
+            label.setText(name);
         } catch (Exception exception) {
             // TODO Error Message
         }
     }
 
 
+    public String getName() {
+        return label.getText();
+    }
+
+
+    public String getSource() {
+        return sound == null ? "" : sound.getSource();
+    }
+
+
     public void clear() {
         sound = null;
         label.setText("");
-        getStyleClass().remove("loaded");
+        getStyleClass().removeAll("loaded");
     }
-
 
 }

@@ -5,7 +5,7 @@
     <name>CuePad</name>
     <groupId>me.aaronwilson</groupId>
     <artifactId>cuepad</artifactId>
-    <version>0.0.3</version>
+    <version>0.1.0</version>
     <packaging>jar</packaging>
     
     <properties>
@@ -15,8 +15,19 @@
         <project.mainClass>App</project.mainClass>
         <project.mainClassPath>${project.groupId}.${project.artifactId}.${project.mainClass}</project.mainClassPath>
     </properties>
+    
+    <!-- Dependencies -->
+    <dependencies>
+    <!--  Gson: Java to Json conversion -->
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.7</version>
+      <scope>compile</scope>
+    </dependency>
+	</dependencies>
 
-<!-- Build settings -->
+    <!-- Build settings -->
     <build>
         <finalName>${project.name} v${project.version}</finalName>
 
