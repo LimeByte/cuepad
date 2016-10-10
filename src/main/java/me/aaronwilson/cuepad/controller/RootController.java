@@ -7,15 +7,29 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import me.aaronwilson.cuepad.CueScene;
 
 public class RootController implements Initializable {
+
+    private GridController gridController;
 
     @FXML
     private BorderPane rootPane;
 
+    @FXML
+    private Label sceneName;
 
-    private GridController gridController;
+    @FXML
+    private Button previousScene;
+
+    @FXML
+    private Button nextScene;
+
+    @FXML
+    private Button newScene;
 
 
     @Override
@@ -25,7 +39,10 @@ public class RootController implements Initializable {
         } catch (IOException e) {
             System.err.println("Failed to load nested FXML files.");
             e.printStackTrace();
+            return;
         }
+
+        setupSceneControls();
     }
 
 
@@ -39,6 +56,42 @@ public class RootController implements Initializable {
         rootPane.setCenter(gridLoader.load());
         gridController = gridLoader.getController();
     }
+
+
+    /**
+     * Registers events and sets up the properties for the scene label and buttons.
+     */
+    private void setupSceneControls() {
+        updateSceneControls();
+
+        previousScene.setOnMouseClicked((event) -> {
+            gridController.previousScene();
+            updateSceneControls();
+        });
+
+        nextScene.setOnMouseClicked((event) -> {
+            gridController.nextScene();
+            updateSceneControls();
+        });
+
+        newScene.setOnMouseClicked((event) -> {
+            gridController.createScene();
+            updateSceneControls();
+        });
+    }
+
+
+    private void updateSceneControls() {
+        sceneName.setText(gridController.getScene().getName());
+        previousScene.setDisable(!gridController.hasPreviousScene());
+        nextScene.setDisable(!gridController.hasNextScene());
+    }
+
+
+    public void onSceneChange(CueScene scene) {
+        sceneName.setText(scene.getName());
+    }
+
 
 
     @FXML

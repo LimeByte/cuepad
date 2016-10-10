@@ -2,11 +2,13 @@ package me.aaronwilson.cuepad;
 
 import java.io.File;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.AudioClip;
+import javafx.scene.text.TextAlignment;
 
 public class Cue extends BorderPane {
 
@@ -32,7 +34,9 @@ public class Cue extends BorderPane {
 
     private void makeContent() {
         label = new Label();
-        setTop(label);
+        label.setAlignment(Pos.CENTER);
+        label.setTextAlignment(TextAlignment.CENTER);
+        setCenter(label);
     }
 
 
@@ -67,7 +71,19 @@ public class Cue extends BorderPane {
     private void handleClickEvents() {
         setOnMousePressed((event) -> {
             if (!event.isSynthesized() && sound != null) {
-                sound.play();
+                switch (event.getButton()) {
+                    case MIDDLE:
+                        break;
+                    case NONE:
+                        break;
+                    case PRIMARY:
+                        sound.play();
+                        break;
+                    case SECONDARY:
+                        break;
+                    default:
+                        break;
+                }
             }
         });
 
