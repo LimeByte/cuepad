@@ -17,7 +17,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -42,7 +42,7 @@ public class RootController implements Initializable {
     private Button save;
 
     @FXML
-    private Label sceneName;
+    private TextField sceneName;
 
     @FXML
     private Button previousScene;
@@ -157,6 +157,22 @@ public class RootController implements Initializable {
             gridController.createScene();
             updateSceneControls();
         });
+
+        sceneName.textProperty().addListener((observable, from, to) -> {
+            gridController.getScene().setName(sceneName.getText().trim());
+        });
+
+        sceneName.setOnKeyPressed((event) -> {
+            switch (event.getCode()) {
+                case ENTER:
+                case ESCAPE:
+                case TAB:
+                    rootPane.requestFocus();
+                    break;
+                default:
+                    break;
+            }
+        });
     }
 
 
@@ -164,6 +180,7 @@ public class RootController implements Initializable {
         sceneName.setText(gridController.getScene().getName());
         previousScene.setDisable(!gridController.hasPreviousScene());
         nextScene.setDisable(!gridController.hasNextScene());
+        rootPane.requestFocus();
     }
 
 

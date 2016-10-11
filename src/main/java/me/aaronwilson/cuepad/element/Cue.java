@@ -21,6 +21,7 @@ public class Cue extends BorderPane {
 
     public Cue() {
         getStyleClass().add("cue");
+        getStyleClass().add(SwatchColor.GREEN.getStyleClass());
 
         setMinWidth(WIDTH);
         setMinHeight(HEIGHT);
@@ -34,6 +35,7 @@ public class Cue extends BorderPane {
 
     public Cue(String name, String filePath) {
         this();
+
         if (!filePath.isEmpty()) {
             loadFile(name, filePath);
         }

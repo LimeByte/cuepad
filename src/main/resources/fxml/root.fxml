@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -23,7 +24,7 @@
             <HBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
                   <Button fx:id="previousScene" disable="true" mnemonicParsing="false" text="&lt;" />
-                  <Label fx:id="sceneName" alignment="CENTER" maxWidth="100.0" minWidth="100.0" text="Scene" textAlignment="CENTER" />
+                  <TextField fx:id="sceneName" alignment="CENTER" styleClass="editable-label" text="Scene" />
                   <Button fx:id="nextScene" disable="true" mnemonicParsing="false" text="&gt;" />
                </children>
             </HBox>

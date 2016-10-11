@@ -38,14 +38,39 @@
 }
 
 .cue.loaded {
-    -fx-background-color: -swatch-green;
+    -fx-background-color: -swatch-50;
     -fx-cursor: hand;
 }
 
 .cue.loaded:hover {
-    -fx-background-color: derive(-swatch-green, 30%);
+    -fx-background-color: derive(-swatch-50, 30%);
 }
 
 .cue .label {
     -fx-text-fill: -swatch-10;
+}
+
+.cue.loaded.yellow {-fx-background-color: -swatch-yellow;}
+.cue.loaded.yellow:hover {-fx-background-color: derive(-swatch-yellow, 30%);}
+
+.cue.loaded.orange {-fx-background-color: -swatch-orange;}
+.cue.loaded.orange:hover {-fx-background-color: derive(-swatch-orange, 30%);}
+
+.cue.loaded.green {-fx-background-color: -swatch-green;}
+.cue.loaded.green:hover {-fx-background-color: derive(-swatch-green, 30%);}
+
+.cue.loaded.blue {-fx-background-color: -swatch-blue;}
+.cue.loaded.blue:hover {-fx-background-color: derive(-swatch-blue, 30%);}
+
+.cue.loaded.purple {-fx-background-color: -swatch-purple;}
+.cue.loaded.purple:hover {-fx-background-color: derive(-swatch-purple, 30%);}
+
+.cue.loaded.pink {-fx-background-color: -swatch-pink;}
+.cue.loaded.pink:hover {-fx-background-color: derive(-swatch-pink, 30%);}
+
+.cue.loaded.red {-fx-background-color: -swatch-red;}
+.cue.loaded.red:hover {-fx-background-color: derive(-swatch-red, 30%);}
+
+.editable-label {
+    -fx-background-color: transparent;
 }
