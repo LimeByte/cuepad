@@ -17,6 +17,7 @@ public class CueAdapter implements JsonSerializer<Cue>, JsonDeserializer<Cue> {
         JsonObject object = new JsonObject();
         object.addProperty("name", cue.getName());
         object.addProperty("path", cue.getSource());
+        object.addProperty("singleton", cue.isSingleton());
         return object;
     }
 
@@ -26,7 +27,14 @@ public class CueAdapter implements JsonSerializer<Cue>, JsonDeserializer<Cue> {
         JsonObject object = element.getAsJsonObject();
         String name = object.get("name").getAsString();
         String filePath = object.get("path").getAsString();
-        return new Cue(name, filePath);
+
+        Cue cue = new Cue(name, filePath);
+
+        if (object.has("singleton")) {
+            cue.setSingleton(object.get("singleton").getAsBoolean());
+        }
+
+        return cue;
     }
 
 }

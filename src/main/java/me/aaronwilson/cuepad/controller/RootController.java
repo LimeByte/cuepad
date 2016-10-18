@@ -1,45 +1,29 @@
 package me.aaronwilson.cuepad.controller;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-import me.aaronwilson.cuepad.element.Cue;
-import me.aaronwilson.cuepad.element.CueAdapter;
+import me.aaronwilson.cuepad.App;
 import me.aaronwilson.cuepad.element.CueScene;
 
 public class RootController implements Initializable {
 
     private Stage stage;
     private GridController gridController;
-    private Gson gson;
+
 
     @FXML
     private BorderPane rootPane;
-
-    @FXML
-    private Button load;
-
-    @FXML
-    private Button save;
 
     @FXML
     private Label sceneName;
@@ -51,13 +35,14 @@ public class RootController implements Initializable {
     private Button nextScene;
 
     @FXML
-    private Button newScene;
+    private Button manageScenes;
+
+    @FXML
+    private Button stop;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setupGson();
-
         try {
             setupNestedControllers();
         } catch (IOException e) {
@@ -67,6 +52,7 @@ public class RootController implements Initializable {
         }
 
         setupLoadSaveControls();
+        setupPlaybackControls();
         setupSceneControls();
     }
 
@@ -89,50 +75,39 @@ public class RootController implements Initializable {
 
 
     private void setupLoadSaveControls() {
-        save.setOnMouseClicked((event) -> {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Save Scenes");
-            fileChooser.getExtensionFilters().add(new ExtensionFilter("CuePad Scenes", "*.cps"));
+        manageScenes.setOnMouseClicked(event -> {
+            final Stage popup = new Stage();
+            popup.initModality(Modality.APPLICATION_MODAL);
+            popup.initOwner(stage);
+            popup.setTitle("Manage Scenes");
+            popup.setResizable(false);
+            popup.setAlwaysOnTop(true);
 
-            File file = fileChooser.showSaveDialog(stage);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/manage-scenes.fxml"));
+            Scene scene;
+            try {
+                scene = new Scene(loader.load());
+                scene.getStylesheets().add(getClass().getResource("/css/styles.css").toString());
+                popup.setScene(scene);
 
-            if (file != null) {
-                try {
-                    FileWriter writer = new FileWriter(file);
-                    writer.write(gson.toJson(gridController.getScenes()));
-                    writer.flush();
-                    writer.close();
-                } catch (IOException ex) {
-                    System.out.println(ex.getMessage());
-                }
+                SceneManagerController controller = loader.getController();
+                controller.setStage(popup);
+                controller.setRootController(this);
+
+                popup.show();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
+    }
 
-        load.setOnMouseClicked((event) -> {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Load Scenes");
-            fileChooser.getExtensionFilters().add(new ExtensionFilter("CuePad Scenes", "*.cps"));
 
-            File file = fileChooser.showOpenDialog(stage);
-
-            if (file != null) {
-                try {
-                    FileReader reader = new FileReader(file);
-                    StringBuffer buffer = new StringBuffer();
-                    int numCharsRead;
-                    char[] charArray = new char[1024];
-                    while ((numCharsRead = reader.read(charArray)) > 0) {
-                        buffer.append(charArray, 0, numCharsRead);
-                    }
-                    reader.close();
-
-                    Type type = new TypeToken<List<CueScene>>() {}.getType();
-                    gridController.loadScenes(gson.fromJson(buffer.toString(), type));
-                    updateSceneControls();
-                } catch (IOException ex) {
-                    System.out.println(ex.getMessage());
-                }
-            }
+    /**
+     * Registers events for the playback slider and buttons.
+     */
+    private void setupPlaybackControls() {
+        stop.setOnMouseClicked(event -> {
+            App.getInstance().getSceneManager().stopPlayback();
         });
     }
 
@@ -141,48 +116,30 @@ public class RootController implements Initializable {
      * Registers events and sets up the properties for the scene label and buttons.
      */
     private void setupSceneControls() {
-        updateSceneControls();
+        updateScene();
 
         previousScene.setOnMouseClicked((event) -> {
-            gridController.previousScene();
-            updateSceneControls();
+            App.getInstance().getSceneManager().previousScene();
+            updateScene();
         });
 
         nextScene.setOnMouseClicked((event) -> {
-            gridController.nextScene();
-            updateSceneControls();
-        });
-
-        newScene.setOnMouseClicked((event) -> {
-            gridController.createScene();
-            updateSceneControls();
+            App.getInstance().getSceneManager().nextScene();
+            updateScene();
         });
     }
 
 
-    private void updateSceneControls() {
-        sceneName.setText(gridController.getScene().getName());
-        previousScene.setDisable(!gridController.hasPreviousScene());
-        nextScene.setDisable(!gridController.hasNextScene());
-    }
-
-
-    private void setupGson() {
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Cue.class, new CueAdapter());
-        gson = builder.create();
+    public void updateScene() {
+        gridController.loadScene();
+        sceneName.setText(App.getInstance().getSceneManager().getCurrentScene().getName());
+        previousScene.setDisable(!App.getInstance().getSceneManager().hasPreviousScene());
+        nextScene.setDisable(!App.getInstance().getSceneManager().hasNextScene());
     }
 
 
     public void onSceneChange(CueScene scene) {
         sceneName.setText(scene.getName());
-    }
-
-
-
-    @FXML
-    public void clearGrid() {
-        gridController.clear();
     }
 
 }

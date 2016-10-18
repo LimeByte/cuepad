@@ -46,6 +46,15 @@
     -fx-background-color: derive(-swatch-green, 30%);
 }
 
+.cue.loaded.singleton {
+    -fx-background-color: -swatch-blue;
+    -fx-cursor: hand;
+}
+
+.cue.loaded.singleton:hover {
+    -fx-background-color: derive(-swatch-blue, 30%);
+}
+
 .cue .label {
     -fx-text-fill: -swatch-10;
 }

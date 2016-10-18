@@ -9,6 +9,7 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.media.AudioClip;
 import javafx.scene.text.TextAlignment;
+import me.aaronwilson.cuepad.App;
 
 public class Cue extends BorderPane {
 
@@ -17,6 +18,7 @@ public class Cue extends BorderPane {
 
     private Label label;
     private AudioClip sound;
+    private boolean singleton;
 
 
     public Cue() {
@@ -34,6 +36,7 @@ public class Cue extends BorderPane {
 
     public Cue(String name, String filePath) {
         this();
+
         if (!filePath.isEmpty()) {
             loadFile(name, filePath);
         }
@@ -85,9 +88,10 @@ public class Cue extends BorderPane {
                     case NONE:
                         break;
                     case PRIMARY:
-                        sound.play();
+                        play();
                         break;
                     case SECONDARY:
+                        setSingleton(!singleton);
                         break;
                     default:
                         break;
@@ -96,9 +100,7 @@ public class Cue extends BorderPane {
         });
 
         setOnTouchPressed((event) -> {
-            if (sound != null) {
-                sound.play();
-            }
+            play();
         });
     }
 
@@ -132,10 +134,45 @@ public class Cue extends BorderPane {
     }
 
 
+    public boolean isSingleton() {
+        return singleton;
+    }
+
+
+    public void setSingleton(boolean singleton) {
+        this.singleton = singleton;
+
+        if (singleton) {
+            getStyleClass().add("singleton");
+        } else {
+            getStyleClass().removeAll("singleton");
+        }
+    }
+
+
+    private void play() {
+        if (sound != null) {
+            if (singleton) {
+                App.getInstance().getSceneManager().stopPlayback();
+            }
+
+            sound.play();
+        }
+    }
+
+
+    public void stop() {
+        if (sound != null) {
+            sound.stop();
+        }
+    }
+
+
     public void clear() {
         sound = null;
         label.setText("");
         getStyleClass().removeAll("loaded");
+        setSingleton(false);
     }
 
 }
