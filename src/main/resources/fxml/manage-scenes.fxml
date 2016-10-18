@@ -24,6 +24,7 @@
                <children>
                   <Button fx:id="add" mnemonicParsing="false" text="+" />
                   <Button fx:id="remove" mnemonicParsing="false" text="-" />
+                  <Button fx:id="rename" mnemonicParsing="false" text="Rename" />
                </children>
             </HBox>
          </right>

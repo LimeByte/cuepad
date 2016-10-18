@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import com.google.gson.Gson;
@@ -19,6 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextInputDialog;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
@@ -43,6 +45,9 @@ public class SceneManagerController implements Initializable {
     private Button remove;
 
     @FXML
+    private Button rename;
+
+    @FXML
     private ListView<CueScene> sceneList;
 
 
@@ -56,7 +61,7 @@ public class SceneManagerController implements Initializable {
         setupGson();
         loadScenes();
         setupLoadSaveControls();
-        setupAddRemoveControls();
+        setupEditControls();
     }
 
 
@@ -138,7 +143,7 @@ public class SceneManagerController implements Initializable {
     }
 
 
-    private void setupAddRemoveControls() {
+    private void setupEditControls() {
         add.setOnMouseClicked((event) -> {
             App.getInstance().getSceneManager().createScene();
             rootController.updateScene();
@@ -152,6 +157,25 @@ public class SceneManagerController implements Initializable {
                     App.getInstance().getSceneManager().removeScene(scene);
                 }
                 rootController.updateScene();
+            }
+        });
+
+        rename.setOnMouseClicked(event -> {
+            ObservableList<CueScene> selected = sceneList.getSelectionModel().getSelectedItems();
+
+            if (selected.size() == 1) {
+                CueScene scene = selected.get(0);
+
+                TextInputDialog dialog = new TextInputDialog(scene.getName());
+                dialog.setTitle("Rename Scene");
+                dialog.setHeaderText("Please enter a new scene name");
+                dialog.setContentText("Scene name:");
+
+                Optional<String> result = dialog.showAndWait();
+                result.ifPresent(name -> {
+                    scene.setName(name.trim());
+                    loadScenes();
+                });
             }
         });
     }

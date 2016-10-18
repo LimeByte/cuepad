@@ -81,7 +81,6 @@ public class RootController implements Initializable {
             popup.initOwner(stage);
             popup.setTitle("Manage Scenes");
             popup.setResizable(false);
-            popup.setAlwaysOnTop(true);
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/manage-scenes.fxml"));
             Scene scene;

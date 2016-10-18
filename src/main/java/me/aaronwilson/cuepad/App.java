@@ -26,7 +26,6 @@ public class App extends Application {
         sceneManager = new SceneManager();
 
         primaryStage.setTitle("CuePad");
-        primaryStage.setAlwaysOnTop(true);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/root.fxml"));
         Scene scene = new Scene(loader.load());
