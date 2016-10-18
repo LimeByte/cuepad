@@ -23,6 +23,7 @@ public class Cue extends BorderPane {
 
     public Cue() {
         getStyleClass().add("cue");
+        getStyleClass().add(SwatchColor.GREEN.getStyleClass());
 
         setMinWidth(WIDTH);
         setMinHeight(HEIGHT);

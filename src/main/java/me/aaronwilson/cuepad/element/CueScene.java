@@ -41,6 +41,11 @@ public class CueScene {
     }
 
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
     public List<Cue> getCues() {
         return Collections.unmodifiableList(cues);
     }
