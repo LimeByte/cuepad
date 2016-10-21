@@ -23,6 +23,8 @@
 .button {
     -fx-background-color: -swatch-10;
     -fx-cursor: hand;
+    -fx-font-size: 16px;
+    -fx-padding: 4 12;
 }
 
 .header {
